@@ -47,6 +47,22 @@ UserSchema.path('email').validate(function (email) {
   return email.length
 }, 'Email cannot be blank')
 
+UserSchema.path('email').validate(function(v, fn) {
+  var UserModel = mongoose.model('User');
+
+  // Make sure dealing with the same email+provider
+  // If you want to make email id validation for user uniqueness,
+  // you can remove the provider attribute below.
+
+  var query = {email: v.toLowerCase()}
+
+  // Make sure the email address is not already registered
+  UserModel
+    .find(query, function (err, emails) {
+      fn(err || emails.length === 0);
+    });
+}, 'Email is already registered. Please login');
+
 UserSchema.path('username').validate(function (username) {
   // if you are authenticating by any of the oauth strategies, don't validate
   if (authTypes.indexOf(this.provider) !== -1) return true
