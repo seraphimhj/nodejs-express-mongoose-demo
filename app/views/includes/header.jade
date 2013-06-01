@@ -3,27 +3,31 @@ header#header
   .navbar.navbar-fixed-top(role='navigation')
     .navbar-inner
       .container
-        a.brand(href='/') 瑞安鸿瑞包装机械
         .nav-collapse.collapse
           ul.nav
             li
-              a(href='/articles', title="article listing") Articles
+              a(href='/')
+                img(src="/img/logo.png", alt="Logo")
             li
-              a(href="/articles/new", title="new article") New
+              a(href="/about", title="公司简介") 公司简介
+            li
+              a(href='/articles', title="产品中心") 产品中心
+            li
+              a(href="/network", title="销售网络") 销售网络
+            li
+              a(href="/network", title="联系我们") 联系我们
           ul.nav.pull-right
             if (req.isAuthenticated())
-              li
-                a(href="/users/"+req.user.id, title="Profile")= req.user.username
               li.dropdown
-                a.dropdown-toggle(href='#', role='button', data-toggle='dropdown', data-target='#')
+                a.dropdown-toggle(ref="/users/"+req.user.id, title="Profile", role='button', data-toggle='dropdown', data-target='#')=req.user.username
                   i.icon-caret-down
-                ul.dropdown-menu(role='menu', aria-labelledby="dLabel")
+                ul.dropdown-menu(role='menu')
                   li
-                    a(href="/users/"+req.user.id, title="Profile") 购物车
+                    a(href="/users/"+req.user.id, title="Profile") 订单
                   li
                     a(href="/users/"+req.user.id, title="Profile") 个人资料
                   li
-                    a(href="/logout", title="logout") 注销
+                    a(href="/logout", title="logout") 登出
             else
               li
                 a(href="/login", title="Login") 登陆
