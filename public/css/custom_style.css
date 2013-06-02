@@ -8,12 +8,11 @@
 	height:790px;
 	min-width:995px;
 	overflow: hidden;
-	}
+}
 #topimage #image {
 	z-index: -1;
 	width:100%;
-	}
-
+}
 
 /* --------- INTRODUCTION ----------*/
 
@@ -23,20 +22,20 @@
 }
 
 #introduction {
-	width:313px;
+	width:320px;
 	position:absolute;
 	background: url('../img/introduction_bg.png') repeat -20px -20px;
-	padding:60px 60px;
+	padding:50px 50px;
 }
 
 #introduction h1 {
 	/*font-family: 'ProximaNovaBold', Helvetica, Arial;*/
-	font-size: 18px;
+	font-size: 20px;
 	color:#EEE;
 	letter-spacing: 0.3em;
 	text-transform: uppercase;
 	line-height: 24px;
-	margin-bottom:35px;
+	margin-bottom:15px;
 	text-align: center;
 }
 #introduction h2 {
@@ -46,13 +45,13 @@
 	text-align: justify;
 }
 
-/* ---------  AUDIO  -----------*/
+/* -------- AUDIO -----------*/
 
 div#audio-control {
 	position:absolute;
 	z-index:1029;
-	right:60px;
-	bottom:120px;
+	left:60px;
+	bottom:100px;
 	width:50px;
 	height:50px;
 	cursor:pointer;
@@ -60,10 +59,7 @@ div#audio-control {
 	background:url('../img/music_button.png') no-repeat left -52px transparent;
 }
 
-/*div.sound_off*/
-
-
-/* ----------  Splitter --------- */
+/* --------- SPLITER ---------*/
 div.session_splitter {
 	padding: 100px 0px 50px 0px;
 	background:url('../img/bg-module-top-shadow.png') no-repeat 50% 100%;
@@ -71,20 +67,18 @@ div.session_splitter {
 
 /* --------- FEATURED ----------*/
 
-
 #featured {
-	padding: 10px;
+	/*padding: 10px;*/
 	height: 505px;
 	position:relative;
 	/*background: url('../img/featured_bg.gif') repeat -30px -19px; */
 }
 
-
 #featured #title {
 	position:relative;
 	background: url('../img/featured_line.png') no-repeat center 111px;
 	padding: 10px 0px 50px 0px;
-	margin: 0px 40px;
+	margin: 0px 20px;
 	text-align: center;
 }
 
@@ -92,7 +86,7 @@ div.session_splitter {
 	display:inline-block;
 	width:270px;
 	font-family: 'ProximaNovaBold', Helvetica, Arial;
-	font-size: 13px;
+	font-size: 18px;
 	letter-spacing: 0.3em;
 	text-transform: uppercase;
 	color: #000;

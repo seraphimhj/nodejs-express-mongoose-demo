@@ -18,5 +18,26 @@ $(document).ready(function () {
     'width':'280px'
   });
 
+  jQuery('.fade1').fadeIn(800, function(){
+  });
+
+  var playing = true;
+
+  $('#audio-control').click(function() {
+      if (playing == false) {
+        var v = document.getElementsByTagName("audio")[0];
+        v.play();
+        playing = true; 
+        $(this).css('backgroundPosition', 'left -52px');
+        console.log("playing status is " + playing);
+      } else {
+        var v = document.getElementsByTagName("audio")[0];
+        v.pause();
+        playing = false;
+        $(this).css('backgroundPosition', 'left top');
+        console.log("playing status is " + playing);
+      }
+  });
+
 });
 

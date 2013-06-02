@@ -19,7 +19,8 @@ header#header
           ul.nav.pull-right
             if (req.isAuthenticated())
               li.dropdown
-                a.dropdown-toggle(ref="/users/"+req.user.id, title="Profile", role='button', data-toggle='dropdown', data-target='#')=req.user.username
+                a.dropdown-toggle(ref="/users/"+req.user.id, title="Profile", role='button', data-toggle='dropdown', data-target='#')
+                  i.icon-user.icon-white=" "+req.user.username+" "
                   i.icon-caret-down
                 ul.dropdown-menu(role='menu')
                   li
