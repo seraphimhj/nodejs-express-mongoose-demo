@@ -1,56 +1,27 @@
 extends ../layouts/default
 
 block main
+  h1 Articles
+
 block content
-  div.session_splitter
-  h3 产品展示
-  div
-    ul.thumbnails
-      li.span6
-        div.thumbnail.thumb-hover
-          a(href='/articles', title="ES800AC高速全自动糊盒机")
-            img(src="../img/products/es800ac/size_800.jpg")
-            div.mask
-              h5 ES800AC高速全自动糊盒机   
-                i.icon-chevron-right
-      li.span6
-        div.thumbnail.thumb-hover
-          a(href='/articles', title="ZH-900型高速自动纸盒糊盒机")
-            img(src="../img/products/zh900/size_800.jpg")
-            div.mask
-              h5 ZH-900型高速自动纸盒糊盒机   
-                i.icon-chevron-right
-      li.span6
-        div.thumbnail.thumb-hover
-          a(href='/articles', title="ZH-900B型高速自动纸盒糊盒机")
-            img(src="../img/products/zh900b/size_800.jpg")
-            div.mask
-              h5 ZH-900B型高速自动纸盒糊盒机   
-                i.icon-chevron-right
-      li.span6
-        div.thumbnail.thumb-hover
-          a(href='/articles', title="ZH-900C型高速自动纸盒糊盒机")
-            img(src="../img/products/zh900c/size_800.jpg")
-            div.mask
-              h5 ZH-900C型高速自动纸盒糊盒机   
-                i.icon-chevron-right
-    button.btn.btn-info.pull-right 浏览全部
+  each article in articles
+    .article
+      a.title(href='/articles/'+article._id, title=article.title) #{article.title}
+      p=article.body
+      .author
+        span= formatDate(article.createdAt, "%b %d, %Y at %I:%M %p")
+        span &nbsp;| Author :&nbsp;
+        a(href="/users/"+article.user._id)=article.user.name
+        | &nbsp;|&nbsp;
+        if (article.tags)
+          span.tags
+            span Tags :&nbsp;
+            each tag in article.tags.split(',')
+              a.tag(href="/tags/"+tag)
+                i.icon-tags
+                |  #{tag}
 
-  div(style="background:url('../img/bg-module-top-shadow.png') no-repeat 0% 60%;padding: 100px 0px 30px 0px;")
-  
-  div
-    ul.thumbnails
-      li.span3
-        img.img-circle(src="../img/samples/paperbox_1.jpg", style="width:300px; height:250px")
-      li.span3
-        img.img-circle(src="../img/samples/paperbox_2.jpg", style="width:300px; height:250px")
-      li.span3
-        img.img-circle(src="../img/samples/paperbox_3.jpg", style="width:300px; height:250px")
-      li.span3
-        img.img-circle(src="../img/samples/paperbox_4.jpg", style="width:300px; height:250px")
-  
-  div.pull-right(style="text-align:right;")
-    h1 术业专攻，锐意进取
-    h2 诚挚希望与您携手
-    button.btn.btn-large.btn-primary.pull-right 详情洽谈
-
+  if (pages > 1)
+    .pagination
+      ul
+        != createPagination(pages, page)

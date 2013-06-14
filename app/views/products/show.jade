@@ -1,0 +1,20 @@
+extends ../layouts/post
+
+block main
+  h1= product.title
+
+block content
+  .row
+    .span9
+      p=product.body
+      .date= formatDate(product.createdAt, "%b %d, %Y at %I:%M %p")
+      if (product.tags)
+        .tags
+          | Tags :&nbsp;
+          each tag in product.tags.split(',')
+            a.tag(href="/tags/"+tag)
+              i.icon-tags
+              |  #{tag}
+    .span3
+      if (!product.isNew && product.image && product.image.files && product.image.files.length)
+        img(src=product.image.cdnUri + '/mini_' + product.image.files[0])

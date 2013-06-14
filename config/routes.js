@@ -23,6 +23,7 @@ module.exports = function (app, passport, auth) {
   app.param('userId', users.user)
 
   // article routes
+  /*
   var articles = require('../app/controllers/articles')
   app.get('/articles', articles.index)
   app.get('/articles/new', auth.requiresLogin, articles.new)
@@ -31,11 +32,19 @@ module.exports = function (app, passport, auth) {
   app.get('/articles/:id/edit', auth.requiresLogin, auth.article.hasAuthorization, articles.edit)
   app.put('/articles/:id', auth.requiresLogin, auth.article.hasAuthorization, articles.update)
   app.del('/articles/:id', auth.requiresLogin, auth.article.hasAuthorization, articles.destroy)
-
   app.param('id', articles.article)
+*/
+
+  
+  // product routes
+  var products = require('../app/controllers/products')
+  app.get('/products', products.index)
+  app.get('/products/init', products.initial)
+  app.get('/products/:id', products.show)
+  app.param('id', products.product)
 
   // home route
-  app.get('/', articles.index)
+  app.get('/', products.index)
 
   // comment routes
   var comments = require('../app/controllers/comments')

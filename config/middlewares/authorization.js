@@ -37,3 +37,16 @@ exports.article = {
       next()
     }
 }
+
+/*
+ *  Product authorizations routing middleware
+ */
+
+exports.product = {
+    hasAuthorization : function (req, res, next) {
+      if (req.product.user.id != req.user.id) {
+        return res.redirect('/product/'+req.product.id)
+      }
+      next()
+    }
+}
