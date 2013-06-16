@@ -37,10 +37,15 @@ var ProductSchema = new Schema({
     user: { type : Schema.ObjectId, ref : 'User' },
     createdAt: { type : Date, default : Date.now }
   }],
-  tags: {type: [], get: getTags, set: setTags},
+  tags: {type: [], get: getTags},
   image: {
     cdnUri: String,
-    files: []
+    files: [],
+    descript: []
+  },
+  video: {
+    youkuids: [],
+    posters: []
   },
   createdAt  : {type : Date, default : Date.now}
 })

@@ -80,8 +80,9 @@ div#audio-control {
 
 /* --------- SPLITER ---------*/
 div.session_splitter {
-	padding: 100px 0px 50px 0px;
-	background:url('../img/bg-module-top-shadow.png') no-repeat 50% 100%;
+	margin: 90px 0px 30px 0px;
+	padding: 1px 0px 30px 0px;
+	background:url('../img/bg-module-top-shadow.png') no-repeat 10% 10%;
 }
 
  /* hovering over thumbnails to display title/excerpt thumb-hover */

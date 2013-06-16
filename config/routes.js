@@ -40,7 +40,12 @@ module.exports = function (app, passport, auth) {
   var products = require('../app/controllers/products')
   app.get('/products', products.index)
   app.get('/products/init', products.initial)
+  app.get('/products/video', products.video)
   app.get('/products/:id', products.show)
+
+  app.get('/about', products.about)
+  app.get('/contact', products.contact)
+  app.get('/network', products.network)
   app.param('id', products.product)
 
   // home route

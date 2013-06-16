@@ -5,6 +5,7 @@
 
 var mongoose = require('mongoose')
   , User = mongoose.model('User')
+  , Product = mongoose.model('Product')
 
 exports.signin = function (req, res) {}
 
@@ -21,9 +22,21 @@ exports.authCallback = function (req, res, next) {
  */
 
 exports.login = function (req, res) {
-  res.render('users/login', {
-    title: 'Login',
-    message: req.flash('error')
+  var options = {
+    perPage: 999,
+    page: 0
+  }
+  Product.list(options, function(err, products) {
+    if (err) return res.render('500', {
+      products: products
+    })
+    Product.count().exec(function (err, count) {
+      res.render('users/login', {
+        products: products,
+        title: 'Login',
+        message: req.flash('error')
+      })
+    })
   })
 }
 
@@ -32,9 +45,21 @@ exports.login = function (req, res) {
  */
 
 exports.signup = function (req, res) {
-  res.render('users/signup', {
-    title: 'Sign up',
-    user: new User()
+  var options = {
+    perPage: 999,
+    page: 0
+  }
+  Product.list(options, function(err, products) {
+    if (err) return res.render('500', {
+      products: products
+    })
+    Product.count().exec(function (err, count) {
+      res.render('users/signup', {
+        products: products,
+        title: 'Sign up',
+        user: new User()
+      })
+    })
   })
 }
 
@@ -79,9 +104,21 @@ exports.create = function (req, res) {
 
 exports.show = function (req, res) {
   var user = req.profile
-  res.render('users/show', {
-    title: user.name,
-    user: user
+  var options = {
+    perPage: 999,
+    page: 0
+  }
+  Product.list(options, function(err, products) {
+    if (err) return res.render('500', {
+      products: products
+    })
+    Product.count().exec(function (err, count) {
+      res.render('users/show', {
+        products: products,
+        title: user.name,
+        user: user,
+      })
+    })
   })
 }
 

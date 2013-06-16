@@ -12,6 +12,7 @@ div#footer
           p 厂址：浙江省温州市瑞安愚溪工业区锦源北路35号
         div.span4
           h5 产品导航 Navigation
-          each product in products
-            a(href='/products/'+product._id, title=product.title) #{product.title}
-            br
+          if (products)
+            each product in products
+              a(href='/products/'+product._id, title=product.title) #{product.title}
+              br
