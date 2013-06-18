@@ -6,6 +6,7 @@ script(type='text/javascript', src='/js/twitter-bootstrap-hover-dropdown.min.js'
 <!-- Add fancyBox -->
 link(rel="stylesheet", href="/fancybox/jquery.fancybox.css", type="text/css", media="screen")
 script(type="text/javascript", src="/fancybox/jquery.fancybox.pack.js")
+script(type="text/javascript", src="/js/jwplayer.js")
 script(type='text/javascript', src='/js/app.js')
 script(type="text/javascript")
   $(document).ready(function () {
@@ -31,10 +32,20 @@ script(type="text/javascript")
       fitToView : false,
       width   : '70%',
       height    : '70%',
-      autoSize  : false,
+      autoSize  : true,
       closeClick  : false,
       openEffect  : 'none',
       closeEffect : 'none',
+      content: '<div id="myvideo"></div>',
+      afterShow: function () {
+        jwplayer('myvideo').setup({
+          file: this.href,
+          primary: 'flash',
+          autostart: 'true',
+          width: '800',
+          height: '600'
+        });
+      },
       helpers: {
         thumbs : {
           width : 50,

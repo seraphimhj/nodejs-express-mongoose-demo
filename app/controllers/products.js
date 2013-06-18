@@ -96,13 +96,16 @@ exports.video = function(req, res){
     page: 0
   }
 
+  var videos = ["../../video/combine1.flv", "../../video/combine2.mp4", "../../video/combine3.flv"] 
+
   Product.list(options, function(err, products) {
     if (err) return res.render('500', {
       products: products
     })
     return res.render('products/video', {
       title: '实地拍摄糊盒机流程',
-      products: products
+      products: products,
+      videos: videos,
     })
   })
 }

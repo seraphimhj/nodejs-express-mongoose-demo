@@ -7,11 +7,10 @@ block content
   .row
   div
     ul.thumbnails
-      - var videos = ["XNTcxNTM0ODA4", "XNTcxNTE5MDQ0", "XNTcxNTU5NzI4"]
-      each youkuid, i in videos
+      each video in videos
         li.span6
           div.thumbnail.thumb-hover
-            a.product-video(href="http://player.youku.com/player.php/sid/" + youkuid + "/v.swf")
+            a.product-video(href=video)
               img(src="../../img/video-poster.jpg")
               div.mask
                 h5 视频序号: #{i+1}
