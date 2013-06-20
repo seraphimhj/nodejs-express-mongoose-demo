@@ -96,7 +96,7 @@ exports.video = function(req, res){
     page: 0
   }
 
-  var videos = ["../../video/combine1.flv", "../../video/combine2.mp4", "../../video/combine3.flv"] 
+  var videos = ["../../video/combine1.flv", "../../video/combine3.flv", "../../video/combine2.mp4"] 
 
   Product.list(options, function(err, products) {
     if (err) return res.render('500', {
