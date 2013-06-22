@@ -24,6 +24,7 @@ var env = process.env.NODE_ENV || 'development'
   , config = require('./config/config')[env]
   , auth = require('./config/middlewares/authorization')
   , mongoose = require('mongoose')
+  , taobao = require('taobao')
 
 // Bootstrap db connection
 mongoose.connect(config.db)
@@ -43,6 +44,9 @@ require('./config/express')(app, config, passport)
 
 // Bootstrap routes
 require('./config/routes')(app, passport, auth)
+
+// Taobao appkey
+taobao.config(require('./config/config')["taobao"])
 
 // Start the app by listening on <port>
 var port = process.env.PORT || 3000

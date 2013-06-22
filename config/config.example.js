@@ -69,5 +69,13 @@ module.exports = {
       callbackURL: "http://localhost:3000/auth/google/callback"
     }
   },
-  production: {}
+  production: {},
+  taobao: {
+    // app_key: '21553521',
+    // app_secret: 'd340c40e0bcf86c67ecedb788488de54'
+    app_key: '1021553521',
+    app_secret: 'sandboxe0bcf86c67ecedb788488de54',
+    sandbox: true
+  },
+
 }
