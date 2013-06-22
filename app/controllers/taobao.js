@@ -5,33 +5,46 @@
 var mongoose = require('mongoose')
   , async = require('async')
   , _ = require('underscore')
-  , taobao_config = require('../../config/config')['taobao']
+  , taobao_config = require('../../config/config')['taobao']['production']
   , OAuth = require('oauth')
   , https = require('https')
-  , taobaoAPI = require('../../lib/taobaoAPI')
+  , taobaoAPI = require('../../lib/taobaoAPI').taobaoAPI
   , querystring= require('querystring')
-  // , Treasure = mongoose.model('treasure')
-
-/**
- * Find product by id
- */
-
 
 exports.show = function(req, res){
-  authorizeCode = req.query.code;
-  var oa = new OAuth.OAuth2(
-                  taobao_config['app_key'],
-                  taobao_config['app_secret'],
-                  taobao_config['productOauthURL'],
-                  'authorize',
-                  'token');
-  oa.getOAuthAccessToken(authencateCode, {
-    'grant_type':'authorization_code',
-    'redirect_uri': taobao_config['redirect_uri'],
-  },function(err, access_token, refresh_token, results){
+  if (req.session.access_token != undefined) {
+    taobaoAPI = new taobaoAPI(
+      _.extend(taobao_config)
+    );
+    params = {
+      method: 'taobao.user.seller.get',
+      fields: 'user_id,uid,nick,sex',
+      'access_token': req.session.access_token,
+    };
+    taobaoAPI.baseCall(params, function (data) {
+      console.log(data);
+      return res.render('test',
+        {
+          data: data,
+        });  
+    }); 
+  } else {
+    authorizeCode = req.query.code;
+    console.log("second if code is " + authorizeCode);
+    var oa = new OAuth.OAuth2(
+        taobao_config['app_key'],
+        taobao_config['app_secret'],
+        taobao_config['productOauthURL'],
+        'authorize',
+        'token');
+    oa.getOAuthAccessToken(authorizeCode, {
+      'grant_type':'authorization_code',
+      'redirect_uri': taobao_config['redirect_uri'],
+    },function(err, access_token, refresh_token, results){
       console.log(access_token);
       req.session.access_token = access_token;
-      req.session.taobaoAPI = new taobaoAPI(_.extend(taobao_config, 
+      taobaoAPI = new taobaoAPI(
+        _.extend(taobao_config, 
         {
           'access_token': access_token,
         })
@@ -39,26 +52,17 @@ exports.show = function(req, res){
       params = {
         method: 'taobao.user.seller.get',
         fields: 'user_id,uid,nick,sex',
-      }
-      req.session.taobaoAPI.baseCall(params, function (data) {
+      };
+      taobaoAPI.baseCall(params, function (data) {
         console.log(data);
-      })
-  })
-  // taobao.userGet({
-  //   fields: 'user_id, nick, sex, buyer_credit',
-  // }, function(data) {
-  //   console.log(data);
-  //   res.render('test', {
-  //     data: data
-  //   })
-  // })
-  // params = {
-  //   method: 'taobao.user.seller.get',
-  //   fields: 'user_id,uid,nick,sex',
-  // }
-  // req.session.taobaoAPI.baseCall(url, params, function (data) {
-  //   console.log(data);
-  // })
+        console.log("second if access_toke is " + req.session.access_token);
+        return res.render('test',
+          {
+            data: data,
+          });
+      });
+    });
+  }
 }
 
 // https://oauth.tbsandbox.com/authorize?client_id=1021553521&response_type=code&redirect_uri=http://hongrwei.com/treasure
