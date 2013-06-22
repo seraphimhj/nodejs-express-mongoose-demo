@@ -75,7 +75,10 @@ module.exports = {
     // app_secret: 'd340c40e0bcf86c67ecedb788488de54'
     app_key: '1021553521',
     app_secret: 'sandboxe0bcf86c67ecedb788488de54',
-    sandbox: true
+    // productOauthURL: 'https://oauth.taobao.com/',
+    productOauthURL: 'https://oauth.tbsandbox.com/',
+    redirect_uri: 'http://hongrwei.com/treasure',
+    sandbox: true,
   },
 
 }
