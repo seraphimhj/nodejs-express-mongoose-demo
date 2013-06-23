@@ -8,57 +8,61 @@ var mongoose = require('mongoose')
   , taobao_config = require('../../config/config')['taobao']['production']
   , OAuth = require('oauth')
   , https = require('https')
-  , taobaoAPI = require('../../lib/taobaoAPI').taobaoAPI
-  , querystring= require('querystring')
+  , taobao = require('../../lib/taobaoAPI').taobaoAPI
+  , tbApiGroup = require('../../lib/taobaoAPI').apiGroup
+  , querystring= require('querystring');
+                                                        
+var taobaoAPI = new taobao(taobao_config);
+     
+var oa = new OAuth.OAuth2(
+    taobao_config['app_key'],
+    taobao_config['app_secret'],
+    taobao_config['productOauthURL'],
+    'authorize',
+    'token'); 
 
 exports.show = function(req, res){
+  var requestApi = tbApiGroup.item.getInventory;
   if (req.session.access_token != undefined) {
-    taobaoAPI = new taobaoAPI(
-      _.extend(taobao_config)
-    );
+    console.log(requestApi);
     params = {
-      method: 'taobao.user.seller.get',
-      fields: 'user_id,uid,nick,sex',
-      'access_token': req.session.access_token,
+      method: requestApi.method,
+      fields: requestApi.required.fields,
+      access_token: req.session.access_token,
     };
     taobaoAPI.baseCall(params, function (data) {
       console.log(data);
       return res.render('test',
         {
-          data: data,
+          data: JSON.stringify(data),
         });  
     }); 
   } else {
     authorizeCode = req.query.code;
     console.log("second if code is " + authorizeCode);
-    var oa = new OAuth.OAuth2(
-        taobao_config['app_key'],
-        taobao_config['app_secret'],
-        taobao_config['productOauthURL'],
-        'authorize',
-        'token');
     oa.getOAuthAccessToken(authorizeCode, {
       'grant_type':'authorization_code',
       'redirect_uri': taobao_config['redirect_uri'],
     },function(err, access_token, refresh_token, results){
-      console.log(access_token);
       req.session.access_token = access_token;
-      taobaoAPI = new taobaoAPI(
-        _.extend(taobao_config, 
-        {
-          'access_token': access_token,
-        })
-      );
+      req.session.refresh_token = refresh_token;
+      params = { 
+        method: requestApi.method,
+        fields: requestApi.required.fields, 
+        access_token: req.session.access_token,
+      };  
+      /*
       params = {
         method: 'taobao.user.seller.get',
         fields: 'user_id,uid,nick,sex',
+        access_token: req.session.access_token,
       };
+      */
       taobaoAPI.baseCall(params, function (data) {
         console.log(data);
-        console.log("second if access_toke is " + req.session.access_token);
         return res.render('test',
           {
-            data: data,
+            data: JSON.stringify(data),
           });
       });
     });
