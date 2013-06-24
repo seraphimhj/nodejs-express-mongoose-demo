@@ -5,7 +5,8 @@
 var mongoose = require('mongoose')
   , async = require('async')
   , _ = require('underscore')
-  , taobao_config = require('../../config/config')['taobao']['sandbox']
+  , taobao_config = require('../../config/config')['taobao']['production']
+  // , taobao_config = require('../../config/config')['taobao']['sandbox']
   , OAuth = require('oauth')
   , https = require('https')
   , taobao = require('../../lib/taobaoAPI').taobaoAPI
@@ -22,10 +23,8 @@ var oa = new OAuth.OAuth2(
     'token'); 
 
 exports.show = function(req, res){
-  var requestApi = tbApiGroup.item.getInventory;
-  if (taobao_config.sandbox == true) {
-    req.session.access_token = '6102204ff1b9196c8dc16f0af72a6ee45dfa8fd3822b40e3597147557';
-  }
+  // var requestApi = tbApiGroup.item.getInventory;
+  var requestApi = tbApiGroup.user.getSeller;
   if (req.session.access_token != undefined) {
     console.log(requestApi);
     params = {
@@ -40,7 +39,7 @@ exports.show = function(req, res){
           data: JSON.stringify(data),
         });  
     }); 
-  /* } else {
+  } else {
     authorizeCode = req.query.code;
     console.log("second if code is " + authorizeCode);
     oa.getOAuthAccessToken(authorizeCode, {
@@ -61,7 +60,7 @@ exports.show = function(req, res){
             data: JSON.stringify(data),
           });
       });
-    }); */
+    });
   }
 }
 
