@@ -5,7 +5,7 @@
 var mongoose = require('mongoose')
   , async = require('async')
   , _ = require('underscore')
-  , taobao_config = require('../../config/config')['taobao']['production']
+  , taobao_config = require('../../config/config')['taobao']['sandbox']
   , OAuth = require('oauth')
   , https = require('https')
   , taobao = require('../../lib/taobaoAPI').taobaoAPI
@@ -23,6 +23,9 @@ var oa = new OAuth.OAuth2(
 
 exports.show = function(req, res){
   var requestApi = tbApiGroup.item.getInventory;
+  if (taobao_config.sandbox == true) {
+    req.session.access_token = '6102204ff1b9196c8dc16f0af72a6ee45dfa8fd3822b40e3597147557';
+  }
   if (req.session.access_token != undefined) {
     console.log(requestApi);
     params = {
@@ -37,7 +40,7 @@ exports.show = function(req, res){
           data: JSON.stringify(data),
         });  
     }); 
-  } else {
+  /* } else {
     authorizeCode = req.query.code;
     console.log("second if code is " + authorizeCode);
     oa.getOAuthAccessToken(authorizeCode, {
@@ -50,14 +53,7 @@ exports.show = function(req, res){
         method: requestApi.method,
         fields: requestApi.required.fields, 
         access_token: req.session.access_token,
-      };  
-      /*
-      params = {
-        method: 'taobao.user.seller.get',
-        fields: 'user_id,uid,nick,sex',
-        access_token: req.session.access_token,
       };
-      */
       taobaoAPI.baseCall(params, function (data) {
         console.log(data);
         return res.render('test',
@@ -65,13 +61,15 @@ exports.show = function(req, res){
             data: JSON.stringify(data),
           });
       });
-    });
+    }); */
   }
 }
 
 // https://oauth.tbsandbox.com/authorize?client_id=1021553521&response_type=code&redirect_uri=http://hongrwei.com/treasure
 // https://eco.taobao.com/router/rest?access_token=6200414074d7c11a671202ZZd062c2e6f5a5e7706a4b7cf54991114&method=taobao.user.seller.get&v=2.0&fields=user_id,uid,nick,sex
 // https://gw.api.tbsandbox.com/router/rest   
+// http://www.yihaodian.com/2/?tracker_u=108126376&uid=7966016&type=3
+// http://www.jd.com/?utm_source=go.fanhuan.com&utm_medium=tuiguang&utm_campaign=t_6242_20130623t3MEt3ELGtBF403
 
 exports.oauth = function(req, res){
   authorizeUrl = taobao_config['productOauthURL'] + 'authorize?';
@@ -82,27 +80,10 @@ exports.oauth = function(req, res){
     'view' : 'web'
   }
   authorizeUrl += querystring.stringify(params);
-
   console.log(authorizeUrl)
   res.redirect(authorizeUrl)
 }
 
-
-/**
- * Delete an product
- */
-
-exports.destroy = function(req, res){
-  var product = req.product
-  product.remove(function(err){
-    // req.flash('notice', 'Deleted successfully')
-    res.redirect('/products')
-  })
-}
-
-/**
- * List of Products
- */
 
 exports.index = function(req, res){
   /**

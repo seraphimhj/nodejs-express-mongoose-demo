@@ -71,14 +71,20 @@ module.exports = {
   },
   production: {},
   taobao: {
-    // app_key: '21553521',
-    // app_secret: 'd340c40e0bcf86c67ecedb788488de54'
-    app_key: '1021553521',
-    app_secret: 'sandboxe0bcf86c67ecedb788488de54',
-    // productOauthURL: 'https://oauth.taobao.com/',
-    productOauthURL: 'https://oauth.tbsandbox.com/',
-    redirect_uri: 'http://hongrwei.com/treasure',
-    sandbox: true,
+    sandbox: {
+      app_key: '1021553521',
+      app_secret: 'sandboxe0bcf86c67ecedb788488de54',
+      productOauthURL: 'https://oauth.tbsandbox.com/',
+      redirect_uri: 'http://localhost:3000/treasure',
+      base_url: 'https://gw.api.tbsandbox.com/router/rest',
+    },
+    production: {
+      app_key: '21553521',
+      app_secret: 'd340c40e0bcf86c67ecedb788488de54',
+      productOauthURL: 'https://oauth.taobao.com/',
+      redirect_uri: 'http://hongrwei.com/treasure',
+      base_url: 'https://eco.taobao.com/router/rest',
+    },
   },
 
 }

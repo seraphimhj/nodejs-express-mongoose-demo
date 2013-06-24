@@ -1,11 +1,16 @@
-extends layouts/default
+extends layouts/post
 
 block main
-  h4 TEST DATA
-  br
-  span testing
+  h1= title
 
 block content
-  pre
-    code!= data
+  .row
+  div
+    ul.thumbnails
+      li.span6
+        div.thumbnail.thumb-hover
+          a.product-video(href=video)
+            img(src="../../img/video-poster.jpg")
+            div.mask
+              h5 高速自动糊盒机视频
 
