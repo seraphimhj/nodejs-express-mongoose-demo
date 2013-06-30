@@ -54,8 +54,8 @@ module.exports = function (app, passport, auth) {
   // Taobao api
   var taobao = require('../app/controllers/taobao')
   app.get('/oauth', taobao.oauth)
-  app.get('/treasure', taobao.getAccessToken, taobao.show)
   app.get('/taobao', taobao.getAccessToken, taobao.index)
+  app.get('/taobao/products', taobao.getAccessToken, taobao.products)
 
   // comment routes
   var comments = require('../app/controllers/comments')

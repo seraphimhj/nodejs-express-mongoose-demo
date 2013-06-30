@@ -22,37 +22,42 @@ exports.oauth = function(req, res){
 
 // middleware
 exports.getAccessToken = function(req, res, next){
-  if (req.session.access_token == undefined) {
+  if (req.session.access_token != undefined) {
+    next();
+  } else {
     authorizeCode = req.query.code;
     taobaoAPI.getOAuthAccessToken(authorizeCode, 
         function(err, access_token, refresh_token, results){
       req.session.access_token = access_token;
       req.session.refresh_token = refresh_token;
+      next();
     });
   }
-  next();
 }
 
-exports.show = function(req, res){
+exports.products = function(req, res){
   // var requestApi = tbApiGroup.item.getInventory;
-  var requestApi = tbApiGroup.user.getSeller;
+  var requestApi = tbApiGroup.item.getOnsale;
   params = {
     method: requestApi.method,
     fields: requestApi.required.fields, 
     access_token: req.session.access_token,
   };
   taobaoAPI.baseCall(params, function (data) {
-    console.log(data);
-    return res.render('test',
+    item_list = data["items_onsale_get_response"]["items"]["item"]
+    console.log(item_list);
+    return res.render('taobao/products',
       {
-        data: JSON.stringify(data),
+        // products: JSON.stringify(data),
+        // products: JSON.stringify(item_list),
+        products: item_list,
       });
   });
 }
 
 exports.index = function(req, res){
-  var requestApi = tbApiGroup.item.getOnsale;
-  // var requestApi = tbApiGroup.user.getSeller;
+  // var requestApi = tbApiGroup.item.getOnsale;
+  var requestApi = tbApiGroup.user.getSeller;
   params = {
     method: requestApi.method,
     fields: requestApi.required.fields, 
