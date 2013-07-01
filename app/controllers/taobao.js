@@ -5,8 +5,8 @@
 var mongoose = require('mongoose')
   , async = require('async')
   , _ = require('underscore')
- //  , taobao_config = require('../../config/config')['taobao']['production']
-  , taobao_config = require('../../config/config')['taobao']['sandbox']
+  , taobao_config = require('../../config/config')['taobao']['production']
+  // , taobao_config = require('../../config/config')['taobao']['sandbox']
   , OAuth = require('oauth')
   , https = require('https')
   , taobao = require('../../lib/taobaoAPI').taobaoAPI
@@ -16,6 +16,7 @@ var mongoose = require('mongoose')
 var taobaoAPI = new taobao(taobao_config);
 
 exports.oauth = function(req, res){
+  delete req.session.access_token
   authorizeUrl = taobaoAPI.getAuthorizeUrl();
   res.redirect(authorizeUrl)
 }
@@ -26,12 +27,17 @@ exports.getAccessToken = function(req, res, next){
     next();
   } else {
     authorizeCode = req.query.code;
-    taobaoAPI.getOAuthAccessToken(authorizeCode, 
-        function(err, access_token, refresh_token, results){
-      req.session.access_token = access_token;
-      req.session.refresh_token = refresh_token;
-      next();
-    });
+    if (authorizeCode == undefined) {
+      res.redirect('/oauth')
+    } else {
+      taobaoAPI.getOAuthAccessToken(authorizeCode, 
+          function(err, access_token, refresh_token, results){
+        console.log(err);
+        req.session.access_token = access_token;
+        req.session.refresh_token = refresh_token;
+        next();
+      });
+    }
   }
 }
 
@@ -44,7 +50,13 @@ exports.products = function(req, res){
     access_token: req.session.access_token,
   };
   taobaoAPI.baseCall(params, function (data) {
-    item_list = data["items_onsale_get_response"]["items"]["item"]
+    console.log(data)
+    response = data.items_onsale_get_response
+    if (!response) {
+      item_list = {} 
+    } else {
+      item_list = response.items.item  
+    }
     console.log(item_list);
     return res.render('taobao/products',
       {
@@ -65,9 +77,9 @@ exports.index = function(req, res){
   };
   taobaoAPI.baseCall(params, function (data) {
     console.log(data);
-    return res.render('test',
+    return res.render('taobao/user',
       {
-        data: JSON.stringify(data),
+        user: data.user_seller_get_response.user,
       });
   });
 }
